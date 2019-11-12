@@ -59,7 +59,8 @@ public class BinarySearchTree {
 
     /**
      * 判断这个数组是不是某个二叉搜索树的后序遍历
-     * 解题思路：
+     * 解题思路：归并思想，根据和最后一个元素的比较分成两个数组，然后进行归，最后并
+     * 先实现归并排序，理解其思想，然后再实现
      *
      * @param array 数组
      * @return boolean
