@@ -38,17 +38,6 @@ public class RepeatNnm {
         return false;
     }
 
-    /**
-     * 使奇数位排在数组前半部分，偶数位在后半部分，并且相对位置不变
-     *
-     * 思路：定义两个指针，一个遍历前半部分，一个遍历后半部分，然后交换
-     *
-     * @param array
-     */
-    public void reOrderArray(int[] array) {
-
-    }
-
     private static void swap1(int[] n, int i, int j) {
         int t = n[i];
         n[i] = n[j];

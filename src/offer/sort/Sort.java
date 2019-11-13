@@ -31,7 +31,7 @@ public class Sort {
 
 
     /**
-     * 归并排序
+     * 归并排序(分治思想)
      *
      * @param a
      * @param low
@@ -48,6 +48,14 @@ public class Sort {
         return a;
     }
 
+    /**
+     * 把从low 到mid的数组和从mid + 1到high的数组进行合并,这两个数组的是有序的,然后进行合并
+     *
+     * @param a    数组a
+     * @param low  低下标
+     * @param mid  中间的下标
+     * @param high 高下标
+     */
     public void merge(int[] a, int low, int mid, int high) {
         int[] temp = new int[high - low + 1];
         int i = low;
