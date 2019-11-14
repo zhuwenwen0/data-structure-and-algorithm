@@ -59,8 +59,7 @@ public class BinarySearchTree {
 
     /**
      * 判断这个数组是不是某个二叉搜索树的后序遍历
-     * 解题思路：归并思想，根据和最后一个元素的比较分成两个数组，然后进行归，最后并
-     * 先实现归并排序，理解其思想，然后再实现
+     * 解题思路:递归判断
      *
      * @param array 数组
      * @return boolean
@@ -72,34 +71,27 @@ public class BinarySearchTree {
         if (array.length < 3) {
             return true;
         }
-        return mergerVerfiy(array, 0, array.length - 1);
+        return checkIsAfterOrder(array, 0, array.length - 1);
     }
 
-    public static boolean mergerVerfiy(int[] array, int low, int high) {
-        int target = 0;
-        for (int i = low; i <= high; i++) {
-            if (array[i] > array[high]) {
-                target = i;
-            }
+    public static boolean checkIsAfterOrder(int[] array, int low, int high) {
+        if (high - low <= 1) {
+            return true;
         }
-        if (low < high) {
-            mergerVerfiy(array, low, target);
-            mergerVerfiy(array, target + 1, high);
-            boolean verfiy = verfiy(array, target, high);
-            if (!verfiy) {
+        int currentIndex = low;
+        int rootVal = array[high];
+        //先找出第一个比根节点大的数值
+        while (currentIndex < high && array[currentIndex] <= rootVal) {
+            currentIndex++;
+        }
+        //然后向后遍历，如果有小于的话，就说明不是二叉搜索树
+        for (int i = currentIndex + 1; i < high; i++) {
+            if (array[i] <= rootVal) {
                 return false;
             }
         }
-        return true;
-    }
-
-    public static boolean verfiy(int[] array, int target, int high) {
-        for (int i = target; i < high; i++) {
-            if (array[i] < array[high]) {
-                return false;
-            }
-        }
-        return true;
+        //递归遍历左右子数组
+        return checkIsAfterOrder(array, low, currentIndex - 1) && checkIsAfterOrder(array, currentIndex, high - 1);
     }
 
     /**
@@ -158,7 +150,7 @@ public class BinarySearchTree {
 //        bstNodes.forEach(bstNode -> {
 //            System.out.println(bstNode.value);
 //        });
-        int[] array = new int[]{1,2,4,3,8,10,9,5};
+        int[] array = new int[]{1, 2, 4, 3, 8, 10, 9, 5};
         boolean afterOrder = isAfterOrder(array);
         System.out.println(afterOrder);
 
