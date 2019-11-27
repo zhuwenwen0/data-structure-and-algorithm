@@ -1,8 +1,6 @@
 package offer.datastruct;
 
 
-import offer.bst.BinarySearchTree;
-
 import java.util.*;
 
 /**
@@ -170,7 +168,7 @@ public class BinaryTree {
                 linkedList.add(node.lchild);
                 linkedList.add(node.rchild);
             }
-            if (list.size() >0){
+            if (list.size() > 0) {
                 ret.add(list);
             }
         }
@@ -193,13 +191,14 @@ public class BinaryTree {
             int cnt = queue.size();
             while (cnt-- > 0) {
                 TreeNode node = queue.poll();
-                if (node == null)
+                if (node == null) {
                     continue;
+                }
                 list.add(node.value);
                 queue.add(node.lchild);
                 queue.add(node.rchild);
             }
-            if (reverse){
+            if (reverse) {
                 Collections.reverse(list);
             }
             reverse = !reverse;
@@ -247,11 +246,11 @@ public class BinaryTree {
      * @return boolean
      */
     public boolean hasSubtree(TreeNode root1, TreeNode root2) {
-        if ( root1== null || root2 == null) {
+        if (root1 == null || root2 == null) {
             return false;
         }
         //递归进行判断root2是不是root1的子树
-        return isSubTree(root1,root2) || hasSubtree(root1.lchild,root2) || hasSubtree(root1.rchild,root2);
+        return isSubTree(root1, root2) || hasSubtree(root1.lchild, root2) || hasSubtree(root1.rchild, root2);
     }
 
     /**
@@ -274,27 +273,28 @@ public class BinaryTree {
             return false;
         }
         //在比较两棵树的左右节点是否都相同
-        return isSubTree(root1.lchild,root2.lchild) && isSubTree(root1.rchild,root2.rchild);
+        return isSubTree(root1.lchild, root2.lchild) && isSubTree(root1.rchild, root2.rchild);
     }
 
     /**
      * 二叉树的镜像，把二叉树里所有的左右节点交换
      */
-    public void mirror(TreeNode root){
-        if (root == null){
+    public void mirror(TreeNode root) {
+        if (root == null) {
             return;
         }
         swap(root);
         mirror(root.lchild);
         mirror(root.rchild);
     }
-    private void swap(TreeNode root){
+
+    private void swap(TreeNode root) {
         if (root == null) {
             return;
         }
-        TreeNode temp=root.lchild;
-        root.lchild=root.rchild;
-        root.rchild=temp;
+        TreeNode temp = root.lchild;
+        root.lchild = root.rchild;
+        root.rchild = temp;
     }
 
     /**
@@ -303,24 +303,24 @@ public class BinaryTree {
      * @param root 二叉树的根节点
      * @return boolean
      */
-    public boolean isSymmetrical(TreeNode root){
-        if (root == null){
+    public boolean isSymmetrical(TreeNode root) {
+        if (root == null) {
             return true;
         }
-        return isSymmetrical(root.lchild,root.rchild);
+        return isSymmetrical(root.lchild, root.rchild);
     }
 
-    private boolean isSymmetrical(TreeNode lchild,TreeNode rchild){
+    private boolean isSymmetrical(TreeNode lchild, TreeNode rchild) {
         if (lchild == null && rchild == null) {
             return true;
         }
         if (lchild == null || rchild == null) {
             return false;
         }
-        if (lchild.value != rchild.value){
+        if (lchild.value != rchild.value) {
             return false;
         }
-        return isSymmetrical(lchild.lchild,rchild.rchild) && isSymmetrical(lchild.rchild,rchild.lchild);
+        return isSymmetrical(lchild.lchild, rchild.rchild) && isSymmetrical(lchild.rchild, rchild.lchild);
     }
 
     /**
@@ -329,9 +329,9 @@ public class BinaryTree {
      * @param root 二叉树的根节点
      * @return boolean
      */
-    public boolean isBalanceTree(TreeNode root){
+    public boolean isBalanceTree(TreeNode root) {
         //如果根节点为null的话，则返回true
-        if (root == null){
+        if (root == null) {
             return true;
         }
         return isBalanceTree(root.lchild) && isBalanceTree(root.rchild)
@@ -344,8 +344,8 @@ public class BinaryTree {
      * @param root 二叉树的根节点
      * @return 二叉树的深度
      */
-    public int binaryTreeDepth(TreeNode root){
-        return root == null ? 0: 1+Math.max(binaryTreeDepth(root.lchild),binaryTreeDepth(root.rchild));
+    public int binaryTreeDepth(TreeNode root) {
+        return root == null ? 0 : 1 + Math.max(binaryTreeDepth(root.lchild), binaryTreeDepth(root.rchild));
     }
 
 

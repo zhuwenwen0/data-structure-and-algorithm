@@ -37,6 +37,91 @@ public class AvTree {
         } else {
             adaptAvtNode.lchild = insertNode;
         }
+        //重新构建平衡二叉树
+        reBuild(adaptAvtNode);
+    }
+
+    /**
+     * 左旋
+     *
+     * @param avTreeNode 不平衡节点
+     */
+    public void leftRetenion(AvTreeNode avTreeNode) {
+        if (avTreeNode != null) {
+
+        }
+    }
+
+    /**
+     * 右旋
+     *
+     * @param avTreeNode 不平衡节点
+     */
+    public void rightRetenion(AvTreeNode avTreeNode) {
+        if (avTreeNode != null) {
+
+        }
+    }
+
+    private void reBuild(AvTreeNode avTreeNode) {
+        while (avTreeNode != null) {
+            int lHigh = getHigh(avTreeNode.lchild);
+            int rHigh = getHigh(avTreeNode.rchild);
+            if (lHigh - rHigh == 2) {
+                //代表左边的高度比右边的高度大2,此时代表应该右旋,至于是直接右旋还是需要先左旋再右旋还需要再一步判断
+                //todo
+            } else if (lHigh - rHigh == -2) {
+                //代表右边的高度比左边的高度大2,此时代表应该左旋,至于是直接左旋还是需要先右旋再左旋还需要再一步判断
+                //todo
+            }
+            //向上回溯,找出不平衡的点进行调整
+            avTreeNode = avTreeNode.parent;
+        }
+    }
+
+
+
+    /**
+     * 判断以avTreeNode为根节点的二叉搜索树是否平衡,如果平衡则返回true,不平衡则返回false
+     *
+     * @param avTreeNode 二叉搜索树的节点
+     * @return boolean
+     */
+    public boolean isBalance(AvTreeNode avTreeNode) {
+        if (avTreeNode == null) {
+            return true;
+        }
+        int lHigh = getHigh(avTreeNode.lchild);
+        int rHigh = getHigh(avTreeNode.rchild);
+        //如果节点的左右高度差大于1,那么说明此节点是不平衡的节点
+        if (Math.abs(lHigh - rHigh) > 1) {
+            return false;
+        } else {
+            boolean lBalance = isBalance(avTreeNode.lchild);
+            boolean rBalance = isBalance(avTreeNode.rchild);
+            if (!lBalance) {
+                return false;
+            }
+            if (!rBalance) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 获取二叉树的深度
+     *
+     * @param avTreeNode 二叉搜索树的节点
+     * @return 深度
+     */
+    public int getHigh(AvTreeNode avTreeNode) {
+        if (avTreeNode == null) {
+            return 0;
+        }
+        int lHigh = getHigh(avTreeNode.lchild);
+        int rHigh = getHigh(avTreeNode.rchild);
+        return ((lHigh >= rHigh) ? lHigh : rHigh) + 1;
     }
 
     /**
@@ -92,6 +177,7 @@ public class AvTree {
         for (AvTreeNode avTreeNode : avTreeNodes) {
             System.out.println(avTreeNode.value);
         }
+        System.out.println(avTree.getHigh(avTree.getRoot()));
     }
 
     public Integer getHigh() {
