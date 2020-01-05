@@ -187,18 +187,14 @@ public class AvTree {
 
     public static void main(String[] args) {
         AvTree avTree = new AvTree();
-        avTree.insert(5);
-        avTree.insert(4);
-        avTree.insert(7);
         avTree.insert(9);
-        avTree.insert(3);
-        avTree.insert(1);
-        avTree.insert(10);
+        avTree.insert(7);
+        avTree.insert(5);
         ArrayList<AvTreeNode> avTreeNodes = avTree.inOrder(avTree.root);
         for (AvTreeNode avTreeNode : avTreeNodes) {
             System.out.println(avTreeNode.value);
         }
-        System.out.println(avTree.getHigh(avTree.getRoot()));
+        //System.out.println(avTree.getHigh(avTree.getRoot()));
     }
 
     public Integer getHigh() {
