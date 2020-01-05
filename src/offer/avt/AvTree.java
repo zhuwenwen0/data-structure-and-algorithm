@@ -42,13 +42,33 @@ public class AvTree {
     }
 
     /**
-     * 左旋
+     * 右旋,左左旋转
      *
-     * @param avTreeNode 不平衡节点
+     *              7                                   5
+     *       5                     转换为         4               7
+     *   4      6                                             6
+     *
+     * @param adaptiveNode 不平衡节点
      */
-    public void leftRetenion(AvTreeNode avTreeNode) {
-        if (avTreeNode != null) {
-
+    public void rightRetenion(AvTreeNode adaptiveNode) {
+        if (adaptiveNode != null) {
+            AvTreeNode parentNode = adaptiveNode.parent;
+            //把不平衡的节点的左子树替换成不平衡节点的位置
+            AvTreeNode newRootNode = adaptiveNode.lchild;
+            parentNode.lchild = newRootNode;
+            //给新根节点赋值父节点
+            adaptiveNode.lchild.parent = parentNode;
+            //把不平衡的节点赋
+            newRootNode.lchild = adaptiveNode;
+            //记录原先的右节点
+            AvTreeNode rchild = newRootNode.rchild;
+            //把不平衡的节点赋值给新根节点的右节点
+            newRootNode.rchild = adaptiveNode;
+            //原先右节点6
+            if (rchild != null) {
+                adaptiveNode.lchild = rchild;
+                rchild.parent = adaptiveNode;
+            }
         }
     }
 
@@ -57,7 +77,7 @@ public class AvTree {
      *
      * @param avTreeNode 不平衡节点
      */
-    public void rightRetenion(AvTreeNode avTreeNode) {
+    public void leftRetenion(AvTreeNode avTreeNode) {
         if (avTreeNode != null) {
 
         }
@@ -70,6 +90,7 @@ public class AvTree {
             if (lHigh - rHigh == 2) {
                 //代表左边的高度比右边的高度大2,此时代表应该右旋,至于是直接右旋还是需要先左旋再右旋还需要再一步判断
                 //todo
+                rightRetenion(avTreeNode);
             } else if (lHigh - rHigh == -2) {
                 //代表右边的高度比左边的高度大2,此时代表应该左旋,至于是直接左旋还是需要先右旋再左旋还需要再一步判断
                 //todo
