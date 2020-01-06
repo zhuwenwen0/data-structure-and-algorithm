@@ -53,21 +53,36 @@ public class AvTree {
     public void rightRetenion(AvTreeNode adaptiveNode) {
         if (adaptiveNode != null) {
             AvTreeNode parentNode = adaptiveNode.parent;
-            //把不平衡的节点的左子树替换成不平衡节点的位置
-            AvTreeNode newRootNode = adaptiveNode.lchild;
-            parentNode.lchild = newRootNode;
-            //给新根节点赋值父节点
-            adaptiveNode.lchild.parent = parentNode;
-            //把不平衡的节点赋
-            newRootNode.lchild = adaptiveNode;
-            //记录原先的右节点
-            AvTreeNode rchild = newRootNode.rchild;
-            //把不平衡的节点赋值给新根节点的右节点
-            newRootNode.rchild = adaptiveNode;
-            //原先右节点6
-            if (rchild != null) {
-                adaptiveNode.lchild = rchild;
-                rchild.parent = adaptiveNode;
+            //如果是当前根节点需要旋转
+            if (parentNode == null) {
+                AvTreeNode newRootNode = adaptiveNode.lchild;
+                root = newRootNode;
+                AvTreeNode replaceNode = newRootNode.rchild;
+                newRootNode.rchild = adaptiveNode;
+                newRootNode.rchild.lchild = replaceNode;
+                //设置父节点
+                if (replaceNode != null) {
+                    replaceNode.parent = newRootNode.rchild;
+                }
+                newRootNode.parent = null;
+                adaptiveNode.parent = newRootNode;
+            } else {
+                //把不平衡的节点的左子树替换成不平衡节点的位置
+                AvTreeNode newRootNode = adaptiveNode.lchild;
+                parentNode.lchild = newRootNode;
+                //给新根节点赋值父节点
+                adaptiveNode.lchild.parent = parentNode;
+                //把不平衡的节点赋
+                newRootNode.lchild = adaptiveNode;
+                //记录原先的右节点
+                AvTreeNode rchild = newRootNode.rchild;
+                //把不平衡的节点赋值给新根节点的右节点
+                newRootNode.rchild = adaptiveNode;
+                //原先右节点6
+                if (rchild != null) {
+                    adaptiveNode.lchild = rchild;
+                    rchild.parent = adaptiveNode;
+                }
             }
         }
     }
