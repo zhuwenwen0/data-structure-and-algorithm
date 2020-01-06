@@ -126,12 +126,36 @@ public class AvTree {
             int rHigh = getHigh(avTreeNode.rchild);
             if (lHigh - rHigh == 2) {
                 //代表左边的高度比右边的高度大2,此时代表应该右旋,至于是直接右旋还是需要先左旋再右旋还需要再一步判断
-                //todo
-                rightRetenion(avTreeNode);
+                AvTreeNode temp = avTreeNode;
+                while (temp.lchild != null) {
+                    temp = temp.lchild;
+                }
+                if (temp.rchild != null) {
+                    //先左旋,然后右旋
+                    leftRetenion(avTreeNode);
+                    if (avTreeNode.parent != null) {
+                        rightRetenion(avTreeNode.parent);
+                    }
+                } else {
+                    //直接右旋
+                    rightRetenion(avTreeNode);
+                }
             } else if (lHigh - rHigh == -2) {
                 //代表右边的高度比左边的高度大2,此时代表应该左旋,至于是直接左旋还是需要先右旋再左旋还需要再一步判断
-                //todo
-                leftRetenion(avTreeNode);
+                AvTreeNode temp = avTreeNode;
+                while (temp.rchild != null) {
+                    temp = temp.rchild;
+                }
+                if (temp.lchild != null) {
+                    //先右旋,然后左旋
+                    rightRetenion(avTreeNode);
+                    if (avTreeNode.parent != null) {
+                        leftRetenion(avTreeNode.parent);
+                    }
+                } else {
+                    //直接左旋
+                    leftRetenion(avTreeNode);
+                }
             }
             //向上回溯,找出不平衡的点进行调整
             avTreeNode = avTreeNode.parent;
@@ -225,7 +249,7 @@ public class AvTree {
     public static void main(String[] args) {
         AvTree avTree = new AvTree();
         avTree.insert(9);
-        avTree.insert(10);
+        avTree.insert(8);
         avTree.insert(11);
         avTree.insert(12);
         avTree.insert(13);
