@@ -71,18 +71,20 @@ public class AvTree {
                 AvTreeNode newRootNode = adaptiveNode.lchild;
                 parentNode.lchild = newRootNode;
                 //给新根节点赋值父节点
-                adaptiveNode.lchild.parent = parentNode;
-                //把不平衡的节点赋
-                newRootNode.lchild = adaptiveNode;
+                newRootNode.parent = parentNode;
+
                 //记录原先的右节点
                 AvTreeNode rchild = newRootNode.rchild;
-                //把不平衡的节点赋值给新根节点的右节点
-                newRootNode.rchild = adaptiveNode;
-                //原先右节点6
+                //设置不平衡节点的左孩子是现在新根节点的右孩子
+                adaptiveNode.lchild = rchild;
                 if (rchild != null) {
-                    adaptiveNode.lchild = rchild;
                     rchild.parent = adaptiveNode;
                 }
+                //把不平衡的节点赋给新节点的右孩子
+                newRootNode.rchild = adaptiveNode;
+                //设置不平衡的节点的父节点为新的根节点
+                adaptiveNode.parent = newRootNode;
+                System.out.println(root);
             }
         }
     }
@@ -205,10 +207,13 @@ public class AvTree {
         avTree.insert(9);
         avTree.insert(7);
         avTree.insert(5);
+        avTree.insert(3);
+        avTree.insert(1);
         ArrayList<AvTreeNode> avTreeNodes = avTree.inOrder(avTree.root);
         for (AvTreeNode avTreeNode : avTreeNodes) {
             System.out.println(avTreeNode.value);
         }
+        System.out.println("根节点：" + avTree.root.value);
         //System.out.println(avTree.getHigh(avTree.getRoot()));
     }
 
