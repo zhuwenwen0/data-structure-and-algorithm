@@ -100,6 +100,7 @@ public class AvTree {
                 newRootNode.parent = null;
             } else {
                 newRootNode = adaptiveNode.rchild;
+                //todo 这个有问题,当时LR或者RL型,会出现两个不同的结果
                 parentNode.rchild = newRootNode;
                 //给新根节点赋值父节点
                 newRootNode.parent = parentNode;
@@ -126,34 +127,25 @@ public class AvTree {
             int rHigh = getHigh(avTreeNode.rchild);
             if (lHigh - rHigh == 2) {
                 //代表左边的高度比右边的高度大2,此时代表应该右旋,至于是直接右旋还是需要先左旋再右旋还需要再一步判断
-                AvTreeNode temp = avTreeNode;
-                while (temp.lchild != null) {
-                    temp = temp.lchild;
-                }
+                AvTreeNode temp = avTreeNode.lchild;
                 if (temp.rchild != null) {
-                    //先左旋,然后右旋
-                    leftRetenion(avTreeNode);
-                    if (avTreeNode.parent != null) {
-                        rightRetenion(avTreeNode.parent);
-                    }
-                } else {
-                    //直接右旋
+                    //代表的是LR型，需要先左旋，再右旋
+                    leftRetenion(temp);
+                    rightRetenion(avTreeNode);
+                } else if (temp.lchild != null) {
+                    //代表的是LL型
                     rightRetenion(avTreeNode);
                 }
+
             } else if (lHigh - rHigh == -2) {
                 //代表右边的高度比左边的高度大2,此时代表应该左旋,至于是直接左旋还是需要先右旋再左旋还需要再一步判断
-                AvTreeNode temp = avTreeNode;
-                while (temp.rchild != null) {
-                    temp = temp.rchild;
-                }
+                AvTreeNode temp = avTreeNode.rchild;
                 if (temp.lchild != null) {
-                    //先右旋,然后左旋
-                    rightRetenion(avTreeNode);
-                    if (avTreeNode.parent != null) {
-                        leftRetenion(avTreeNode.parent);
-                    }
-                } else {
-                    //直接左旋
+                    //代表的是RL型，需要先右旋，再左旋
+                    rightRetenion(temp);
+                    leftRetenion(avTreeNode);
+                } else if (temp.rchild != null) {
+                    //代表的是LL型
                     leftRetenion(avTreeNode);
                 }
             }
@@ -248,20 +240,12 @@ public class AvTree {
 
     public static void main(String[] args) {
         AvTree avTree = new AvTree();
-        avTree.insert(9);
-        avTree.insert(8);
+        avTree.insert(11);
         avTree.insert(7);
-        avTree.insert(12);
-        avTree.insert(13);
-        avTree.insert(14);
-        avTree.insert(5);
-        avTree.insert(18);
-        avTree.insert(19);
-        avTree.insert(20);
-        avTree.insert(21);
-        avTree.insert(22);
-        avTree.insert(23);
-        avTree.insert(24);
+        avTree.insert(15);
+        avTree.insert(6);
+        avTree.insert(9);
+        avTree.insert(10);
         ArrayList<AvTreeNode> avTreeNodes = avTree.inOrder(avTree.root);
         for (AvTreeNode avTreeNode : avTreeNodes) {
             System.out.println(avTreeNode.value);
