@@ -250,10 +250,18 @@ public class AvTree {
         AvTree avTree = new AvTree();
         avTree.insert(9);
         avTree.insert(8);
-        avTree.insert(11);
+        avTree.insert(7);
         avTree.insert(12);
         avTree.insert(13);
         avTree.insert(14);
+        avTree.insert(5);
+        avTree.insert(18);
+        avTree.insert(19);
+        avTree.insert(20);
+        avTree.insert(21);
+        avTree.insert(22);
+        avTree.insert(23);
+        avTree.insert(24);
         ArrayList<AvTreeNode> avTreeNodes = avTree.inOrder(avTree.root);
         for (AvTreeNode avTreeNode : avTreeNodes) {
             System.out.println(avTreeNode.value);
