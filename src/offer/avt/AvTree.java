@@ -43,10 +43,10 @@ public class AvTree {
 
     /**
      * 右旋,左左旋转
-     * <p>
-     * 7                                   5
-     * 5                     转换为         4               7
-     * 4      6                                             6
+     *
+     *              7                                   5
+     *       5                     转换为         4               7
+     *   4      6                                             6
      *
      * @param adaptiveNode 不平衡节点
      */
