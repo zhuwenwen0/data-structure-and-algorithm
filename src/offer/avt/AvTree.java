@@ -43,10 +43,10 @@ public class AvTree {
 
     /**
      * 右旋,左左旋转
-     *
-     *              7                                   5
-     *       5                     转换为         4               7
-     *   4      6                                             6
+     * <p>
+     * 7                                   5
+     * 5                     转换为         4               7
+     * 4      6                                             6
      *
      * @param adaptiveNode 不平衡节点
      */
@@ -54,38 +54,32 @@ public class AvTree {
         if (adaptiveNode != null) {
             AvTreeNode parentNode = adaptiveNode.parent;
             //如果是当前根节点需要旋转
+            AvTreeNode newRootNode = null;
             if (parentNode == null) {
-                AvTreeNode newRootNode = adaptiveNode.lchild;
+                //1. 把不平衡的节点的左子树替换成不平衡节点的位置
+                newRootNode = adaptiveNode.lchild;
                 root = newRootNode;
-                AvTreeNode replaceNode = newRootNode.rchild;
-                newRootNode.rchild = adaptiveNode;
-                newRootNode.rchild.lchild = replaceNode;
-                //设置父节点
-                if (replaceNode != null) {
-                    replaceNode.parent = newRootNode.rchild;
-                }
+                //给新根节点赋值父节点
                 newRootNode.parent = null;
-                adaptiveNode.parent = newRootNode;
             } else {
-                //把不平衡的节点的左子树替换成不平衡节点的位置
-                AvTreeNode newRootNode = adaptiveNode.lchild;
+                //1. 把不平衡的节点的左子树替换成不平衡节点的位置
+                newRootNode = adaptiveNode.lchild;
                 parentNode.lchild = newRootNode;
                 //给新根节点赋值父节点
                 newRootNode.parent = parentNode;
-
-                //记录原先的右节点
-                AvTreeNode rchild = newRootNode.rchild;
-                //设置不平衡节点的左孩子是现在新根节点的右孩子
-                adaptiveNode.lchild = rchild;
-                if (rchild != null) {
-                    rchild.parent = adaptiveNode;
-                }
-                //把不平衡的节点赋给新节点的右孩子
-                newRootNode.rchild = adaptiveNode;
-                //设置不平衡的节点的父节点为新的根节点
-                adaptiveNode.parent = newRootNode;
-                System.out.println(root);
             }
+            // 2.记录原先的右节点
+            AvTreeNode rchild = newRootNode.rchild;
+            //设置父节点
+            adaptiveNode.lchild = rchild;
+            if (rchild != null) {
+                rchild.parent = newRootNode.rchild;
+            }
+
+            //3. 把不平衡的节点赋给新节点的右孩子
+            newRootNode.rchild = adaptiveNode;
+            //设置不平衡的节点的父节点为新的根节点
+            adaptiveNode.parent = newRootNode;
         }
     }
 
@@ -116,7 +110,6 @@ public class AvTree {
             avTreeNode = avTreeNode.parent;
         }
     }
-
 
 
     /**
@@ -208,6 +201,7 @@ public class AvTree {
         avTree.insert(7);
         avTree.insert(5);
         avTree.insert(3);
+        avTree.insert(2);
         avTree.insert(1);
         ArrayList<AvTreeNode> avTreeNodes = avTree.inOrder(avTree.root);
         for (AvTreeNode avTreeNode : avTreeNodes) {
