@@ -63,7 +63,12 @@ public class AvTree {
                 newRootNode.parent = null;
             } else {
                 newRootNode = adaptiveNode.lchild;
-                parentNode.lchild = newRootNode;
+                //需要先判断不平衡节点处在父节点的什么位置
+                if (parentNode.lchild == adaptiveNode) {
+                    parentNode.lchild = newRootNode;
+                } else {
+                    parentNode.rchild = newRootNode;
+                }
                 //给新根节点赋值父节点
                 newRootNode.parent = parentNode;
             }
@@ -100,8 +105,12 @@ public class AvTree {
                 newRootNode.parent = null;
             } else {
                 newRootNode = adaptiveNode.rchild;
-                //todo 这个有问题,当时LR或者RL型,会出现两个不同的结果
-                parentNode.rchild = newRootNode;
+                //需要先判断不平衡节点处在父节点的什么位置
+                if(parentNode.rchild == adaptiveNode) {
+                    parentNode.rchild = newRootNode;
+                } else {
+                    parentNode.lchild = newRootNode;
+                }
                 //给新根节点赋值父节点
                 newRootNode.parent = parentNode;
             }
