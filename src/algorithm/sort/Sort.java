@@ -1,4 +1,4 @@
-package offer.sort;
+package algorithm.sort;
 
 public class Sort {
     /**

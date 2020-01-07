@@ -1,4 +1,4 @@
-package offer.datastruct;
+package struceure.datastruct;
 
 
 import java.util.*;

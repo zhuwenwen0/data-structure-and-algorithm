@@ -1,4 +1,4 @@
-package offer.bst;
+package struceure.bst;
 
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package offer.array;
+package algorithm.array;
 
 import java.util.Stack;
 

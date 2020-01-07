@@ -1,4 +1,4 @@
-package offer.array;
+package algorithm.array;
 
 /**
  * 在一个长度为n的数组里面，里面的数字都是小于n-1的数字，判断有没有重复元素,并返回重复元素

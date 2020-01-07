@@ -1,4 +1,4 @@
-package offer.array;
+package algorithm.array;
 
 /**
  * 二维数组中的查找

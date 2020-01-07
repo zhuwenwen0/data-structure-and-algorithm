@@ -1,4 +1,4 @@
-package offer.avt;
+package struceure.avt;
 
 import java.util.ArrayList;
 

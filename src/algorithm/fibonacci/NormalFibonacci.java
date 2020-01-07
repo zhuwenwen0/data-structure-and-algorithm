@@ -1,4 +1,4 @@
-package offer.fibonacci;
+package algorithm.fibonacci;
 
 /**
  * 斐波那契数列

@@ -1,4 +1,4 @@
-package offer.matrix;
+package algorithm.matrix;
 
 import java.util.ArrayList;
 

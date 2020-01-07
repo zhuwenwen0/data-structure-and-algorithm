@@ -1,4 +1,4 @@
-package offer.heap;
+package algorithm.heap;
 
 /**
  * 堆排序
