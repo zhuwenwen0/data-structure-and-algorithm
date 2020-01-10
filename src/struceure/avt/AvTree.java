@@ -25,20 +25,19 @@ public class AvTree {
         if (value == null) {
             return;
         }
-        AvTreeNode insertNode = new AvTreeNode(value);
         if (root == null) {
-            root = insertNode;
+            root = new AvTreeNode(value, null);
             return;
         }
-        AvTreeNode adaptAvtNode = getAdaptAvtNode(root, insertNode);
-        insertNode.parent = adaptAvtNode;
-        if (value > adaptAvtNode.value) {
-            adaptAvtNode.rchild = insertNode;
+        AvTreeNode parentNode = getAdaptAvtNode(root, value);
+        AvTreeNode insertNode = new AvTreeNode(value, parentNode);
+        if (value > parentNode.value) {
+            parentNode.rchild = insertNode;
         } else {
-            adaptAvtNode.lchild = insertNode;
+            parentNode.lchild = insertNode;
         }
         //重新构建平衡二叉树
-        reBuild(adaptAvtNode);
+        reBuild(parentNode);
     }
 
     /**
@@ -213,20 +212,20 @@ public class AvTree {
      * @param avTreeNode 开始的位置
      * @return 应该插入的位置
      */
-    private AvTreeNode getAdaptAvtNode(AvTreeNode avTreeNode, AvTreeNode insertNode) {
-        if (avTreeNode == null || insertNode == null) {
+    private AvTreeNode getAdaptAvtNode(AvTreeNode avTreeNode, Integer value) {
+        if (avTreeNode == null || value == null) {
             throw new IllegalArgumentException("IllegalArgument");
         }
-        if (insertNode.value > avTreeNode.value) {
+        if (value > avTreeNode.value) {
             if (avTreeNode.rchild == null) {
                 return avTreeNode;
             }
-            return getAdaptAvtNode(avTreeNode.rchild, insertNode);
+            return getAdaptAvtNode(avTreeNode.rchild, value);
         } else {
             if (avTreeNode.lchild == null) {
                 return avTreeNode;
             }
-            return getAdaptAvtNode(avTreeNode.lchild, insertNode);
+            return getAdaptAvtNode(avTreeNode.lchild, value);
         }
     }
 
@@ -289,8 +288,9 @@ public class AvTree {
 
         private AvTreeNode rchild;
 
-        public AvTreeNode(Integer value) {
+        public AvTreeNode(Integer value, AvTreeNode parent) {
             this.value = value;
+            this.parent = parent;
         }
 
         public Integer getValue() {
