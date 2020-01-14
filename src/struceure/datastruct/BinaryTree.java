@@ -362,6 +362,7 @@ public class BinaryTree {
         }
         findPath(root, target, new ArrayList<>(), list);
         list.sort(Comparator.comparing(fun -> fun.size()));
+        Collections.reverse(list);
         return list;
     }
 
