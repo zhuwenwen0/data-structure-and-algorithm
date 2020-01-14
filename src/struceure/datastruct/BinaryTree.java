@@ -1,6 +1,7 @@
 package struceure.datastruct;
 
 
+import javax.swing.tree.TreeNode;
 import java.util.*;
 
 /**
@@ -348,10 +349,43 @@ public class BinaryTree {
         return root == null ? 0 : 1 + Math.max(binaryTreeDepth(root.lchild), binaryTreeDepth(root.rchild));
     }
 
+    /**
+     * 获取二叉树中路径之和为num的所有路径,
+     *
+     * @param target target
+     * @return 路径的列表
+     */
+    public ArrayList<ArrayList<Integer>> getPathSumOfNum(TreeNode root, Integer target) {
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        if (target == null) {
+            return list;
+        }
+        findPath(root, target, new ArrayList<>(), list);
+        list.sort(Comparator.comparing(fun -> fun.size()));
+        return list;
+    }
+
+    public void findPath(TreeNode node, Integer target, ArrayList<Integer> path, ArrayList<ArrayList<Integer>> list) {
+        if (node == null) {
+            return;
+        }
+        path.add(node.value);
+        target = target - node.value;
+        if (target == 0 && node.lchild == null && node.rchild == null) {
+            list.add(new ArrayList<>(path));
+        } else {
+            findPath(node.lchild, target, path, list);
+            findPath(node.rchild, target, path, list);
+        }
+        path.remove(path.size() - 1);
+    }
+
+
+
 
     public static void main(String[] args) {
         BinaryTree binaryTree = new BinaryTree();
-        int[] pre = {1, 2, 4, 5, 3, 6, 7};
+        int[] pre = {1, 2, 4, 5, 3, 4, 7};
         int[] in = {4, 2, 5, 1, 6, 3, 7};
 //        int[] in = {9,8,4,2,7,10,11};
 //        int[] pre = {10,8,9,2,4,7,11};
@@ -360,7 +394,12 @@ public class BinaryTree {
 //        int[] pre1 = {8,9,2};
 //        int[] in1 = {9,8,2};
 //        TreeNode treeNode2 = binaryTree.reConstructBinaryTree(pre1, in1);
-        System.out.println(binaryTree.isBalanceTree(treeNode));
+        ArrayList<ArrayList<Integer>> pathSumOfNum = binaryTree.getPathSumOfNum(treeNode, 8);
+        for (ArrayList<Integer> integers : pathSumOfNum) {
+            for (int i = 0; i < integers.size(); i++) {
+                System.out.println(integers.get(i));
+            }
+        }
 //        System.out.println("--------二叉树的深度-------");
 //        System.out.println(binaryTree.binaryTreeDepth(treeNode));
 //        System.out.println("------前序遍历---------");
@@ -428,4 +467,6 @@ public class BinaryTree {
             this.next = next;
         }
     }
+
+
 }
