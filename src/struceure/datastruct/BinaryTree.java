@@ -386,7 +386,7 @@ public class BinaryTree {
 
     public static void main(String[] args) {
         BinaryTree binaryTree = new BinaryTree();
-        int[] pre = {1, 2, 4, 5, 3, 4, 7};
+        int[] pre = {1, 2, 4, 5, 3, 6, 7};
         int[] in = {4, 2, 5, 1, 6, 3, 7};
 //        int[] in = {9,8,4,2,7,10,11};
 //        int[] pre = {10,8,9,2,4,7,11};
