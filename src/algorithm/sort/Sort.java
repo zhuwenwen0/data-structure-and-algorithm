@@ -116,9 +116,21 @@ public class Sort {
 //            System.out.println(a[i]);
 //        }
         //System.out.println(sort.binarySearch(a, 0, a.length - 1, 11));
-        int[] ints = sort.mergeSort(a, 0, a.length - 1);
-        for (int i = 0; i < ints.length; i++) {
-            System.out.println(ints[i]);
+//        int[] ints = sort.mergeSort(a, 0, a.length - 1);
+//        for (int i = 0; i < ints.length; i++) {
+//            System.out.println(ints[i]);
+//        }
+        sort.rec(10);
+    }
+
+
+    void rec(int n) {
+        //为了区分这两个递归，分别为它们取个别名好了
+        if (n>0){
+            rec(n - 1);//rec1
+            rec(n - 10);//rec2
         }
+        System.out.println("n =" + n);
+        System.out.println("最后一句了");
     }
 }
