@@ -110,46 +110,55 @@ public class Matrix {
      */
     private boolean backtrackingWithStock(char[][] matrix, char[] str,
                                           boolean[][] marked, int r, int c) {
-        Stack<MatrixPosition> stack = new Stack<>();
-        //进行标记
-        marked[r][c] = true;
-        stack.push(new MatrixPosition(r, c));
-        while (!stack.isEmpty()) {
-            for (int i = stack.size(); i < str.length; i++) {
-                //判断起始点的的后一个位置是否包含对应位置的字符
-                boolean add = false;
-                loop1:
-                for (int j = 0; j < next.length; j++) {
-                    //弹出栈顶元素，但是元素不出栈
-                    MatrixPosition peek = stack.peek();
-                    int nextX = peek.getX() + next[j][0];
-                    int nextY = peek.getY() + next[j][1];
-                    //限制下一步的行进范围在矩阵中
-                    if (nextX >= matrix.length || nextY >= matrix[0].length || nextX < 0 || nextY < 0 || marked[nextX][nextY]) {
-                        continue;
-                    }
-                    //如果是符合字符串结果就进栈
-                    if (matrix[nextX][nextY] == str[i]) {
-                        stack.push(new MatrixPosition(nextX, nextY));
-                        //标记已访问
-                        marked[nextX][nextY] = true;
-                        add = true;
-                        //如果是字符串的最后一个字符找到的话，就返回true
-                        if (i == str.length - 1) {
-                            return true;
+        try {
+            Stack<MatrixPosition> stack = new Stack<>();
+            //进行标记
+            marked[r][c] = true;
+            stack.push(new MatrixPosition(r, c));
+            while (!stack.isEmpty()) {
+                for (int i = stack.size(); i < str.length; i++) {
+                    //判断起始点的的后一个位置是否包含对应位置的字符
+                    boolean add = false;
+                    loop1:
+                    for (int j = 0; j < next.length; j++) {
+                        //弹出栈顶元素，但是元素不出栈
+                        MatrixPosition peek = stack.peek();
+                        int nextX = peek.getX() + next[j][0];
+                        int nextY = peek.getY() + next[j][1];
+                        //限制下一步的行进范围在矩阵中
+                        if (nextX >= matrix.length || nextY >= matrix[0].length || nextX < 0 || nextY < 0 || marked[nextX][nextY]) {
+                            continue;
                         }
-                        //退出循环
-                        break loop1;
+                        //如果是符合字符串结果就进栈
+                        if (matrix[nextX][nextY] == str[i]) {
+                            stack.push(new MatrixPosition(nextX, nextY));
+                            //标记已访问
+                            marked[nextX][nextY] = true;
+                            add = true;
+                            //如果是字符串的最后一个字符找到的话，就返回true
+                            if (i == str.length - 1) {
+                                return true;
+                            }
+                            //退出循环
+                            break loop1;
+                        }
+                    }
+
+                    if (!add) {
+                        //如果进行了四步都没有包含字符串所需的字符的话,就回溯上一步
+                        if (stack.size() == 1) {
+                            return false;
+                        } else {
+                            stack.pop();
+                        }
                     }
                 }
-
-                if (!add) {
-                    //如果进行了四步都没有包含字符串所需的字符的话,就回溯上一步
-                    if (stack.size() == 1) {
-                        return false;
-                    } else {
-                        stack.pop();
-                    }
+            }
+        } finally {
+            //消除标记
+            for (int i = 0; i < marked.length; i++) {
+                for (int j = 0; j < marked[0].length; j++) {
+                    marked[i][j] = false;
                 }
             }
         }
