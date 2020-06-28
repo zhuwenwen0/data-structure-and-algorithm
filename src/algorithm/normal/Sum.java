@@ -28,18 +28,18 @@ public class Sum {
      * 可以不用表演,并且拿到“名侦探柯南”典藏版(名额有限哦!!^_^)。请你试着想下,哪个小朋友会得到这份礼品呢？(注：小朋友的编号是从0到 n-1)
      * <p>
      * 如果没有小朋友，请返回-1
-     *
-     *
-     *
-     *
+     * <p>
+     * <p>
+     * <p>
+     * <p>
      * 假设f(n, m) 表示最终留下元素的序号。比如上例子中表示为:f(5,3) = 3
-     *
+     * <p>
      * 首先，长度为 n 的序列会先删除第 m % n 个元素，然后剩下一个长度为 n - 1 的序列。那么，我们可以递归地求解 f(n - 1, m)，
      * 就可以知道对于剩下的 n - 1 个元素，最终会留下第几个元素，我们设答案为 x = f(n - 1, m)。
-     *
+     * <p>
      * 由于我们删除了第 m % n 个元素，将序列的长度变为 n - 1。当我们知道了 f(n - 1, m) 对应的答案 x 之后，我们也就可以知道，长度为 n 的序列最后一个删除的元素，
      * 应当是从 m % n 开始数的第 x 个元素。因此有 f(n, m) = (m % n + x) % n = (m + x) % n。
-     *
+     * <p>
      * 当n等于1时，f(1,m) = 0
      *
      * @param n
@@ -52,10 +52,84 @@ public class Sum {
             return -1;
         }
         int index = 0;
-        for (int i=2; i<=n; ++i) {
+        for (int i = 2; i <= n; ++i) {
             index = (index + m) % i;
         }
         return index;
+    }
+
+
+    /**
+     * 请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串"+100","5e2","-123","3.1416"和"-1E-16"都表示数值。 但是"12e","1a3.14","1.2.3","+-5"和"12e+4.3"都不是。
+     *
+     * 注意：-.123是表示数值的表示的是 -0.123
+     *
+     * @param str
+     * @return
+     */
+    public boolean isNumeric(char[] str) {
+        if (str.length <= 0) {
+            return false;
+        }
+        //是否存在E
+        boolean existE = false;
+        int ePosition = 0;
+        //是否存在小数点
+        boolean existPoint = false;
+        //判断字符数组中是否含有e或者E
+        for (int i = 0; i < str.length; i++) {
+            if (str[i] == 'e' || str[i] == 'E') {
+                ePosition = i;
+                existE = true;
+            }
+        }
+        if (existE) {
+            //如果e或者E是最后一位的话,直接返回false
+            if (ePosition == str.length - 1) {
+                return false;
+            }
+            return isNormalNum(str, 0, ePosition, true) && isNormalNum(str, ePosition + 1, str.length, false);
+        } else {
+            return isNormalNum(str, 0, str.length, true);
+        }
+    }
+
+    private boolean isNormalNum(char[] str, int start, int end, boolean canHavePoint) {
+        int pointNum = 0;
+        for (int i = start; i < end; i++) {
+            if (i == start && (str[i] == '+' || str[i] == '-')) {
+                continue;
+            }
+            if (canHavePoint) {
+                //含有小数点的情况
+                if (str[i] >= 48 && str[i] <= 57) {
+                    continue;
+                }
+                //判断含有小数点的情况
+                if (str[i] == '.') {
+                    if (i != end - 1 && i != start) {
+                        //如果.号位于第一位或者最后一位的话，就返回false,
+                        if (pointNum >= 1) {
+                            return false;
+                        }
+                        pointNum++;
+                        continue;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                //不含有小数点的情况
+                if (str[i] >= 48 && str[i] <= 57) {
+                    continue;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 
@@ -89,7 +163,7 @@ public class Sum {
         if (skip) {
             for (int i = 1; i < nums.length; i++) {
                 if (nums[i] >= 48 && nums[i] <= 57) {
-                    double v = result + (nums[i] - 48) * Math.pow(10, (double) nums.length - i -1);
+                    double v = result + (nums[i] - 48) * Math.pow(10, (double) nums.length - i - 1);
                     result = (long) v;
                 } else {
                     return 0;
@@ -132,6 +206,10 @@ public class Sum {
         System.out.println();
         System.out.println("ss:" + v);
 
+        double v2 = .123;
+        System.out.println("v2 is " + v2);
 
+        char[] charArray = {'+','-','2','.','3'};
+        System.out.println(sum.isNumeric(charArray));
     }
 }
