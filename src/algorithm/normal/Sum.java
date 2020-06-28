@@ -1,5 +1,7 @@
 package algorithm.normal;
 
+import java.util.Stack;
+
 /**
  * @author zhuwenwen
  * @date 13:57 24-06-2020
@@ -61,7 +63,7 @@ public class Sum {
 
     /**
      * 请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串"+100","5e2","-123","3.1416"和"-1E-16"都表示数值。 但是"12e","1a3.14","1.2.3","+-5"和"12e+4.3"都不是。
-     *
+     * <p>
      * 注意：-.123是表示数值的表示的是 -0.123
      *
      * @param str
@@ -113,7 +115,6 @@ public class Sum {
                             return false;
                         }
                         pointNum++;
-                        continue;
                     } else {
                         return false;
                     }
@@ -122,9 +123,7 @@ public class Sum {
                 }
             } else {
                 //不含有小数点的情况
-                if (str[i] >= 48 && str[i] <= 57) {
-                    continue;
-                } else {
+                if (str[i] < 48 || str[i] > 57) {
                     return false;
                 }
             }
@@ -192,6 +191,30 @@ public class Sum {
         return isGtZero ? (int) result : (int) -result;
     }
 
+
+    /**
+     * 请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可以出现任意次（包含0次）。
+     * 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
+     *
+     * @param str
+     * @param pattern
+     * @return
+     */
+    public boolean match(char[] str, char[] pattern) {
+        if (str == null || str.length <= 0 || pattern == null || pattern.length <= 0) {
+            return false;
+        }
+        //解题思路,把pattern入栈,然后给str从后向前匹配
+        Stack<Character> patternStack = new Stack<>();
+        for (int i = 0; i < pattern.length; i++) {
+            //进行入栈
+            patternStack.push(pattern[i]);
+        }
+        return true;
+    }
+
+
+
     public static void main(String[] args) {
         Sum sum = new Sum();
         int i = sum.Sum_Solution(3);
@@ -209,7 +232,11 @@ public class Sum {
         double v2 = .123;
         System.out.println("v2 is " + v2);
 
-        char[] charArray = {'+','-','2','.','3'};
+        char[] charArray = {'+', '-', '2', '.', '3'};
         System.out.println(sum.isNumeric(charArray));
+
+        String pattern ="ab*ac*a";
+        String str = "aaa";
+        System.out.println("正则判断："+ sum.match(str.toCharArray(), pattern.toCharArray()));
     }
 }
