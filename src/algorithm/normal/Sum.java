@@ -1,7 +1,5 @@
 package algorithm.normal;
 
-import java.util.Stack;
-
 /**
  * @author zhuwenwen
  * @date 13:57 24-06-2020
@@ -196,22 +194,58 @@ public class Sum {
      * 请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可以出现任意次（包含0次）。
      * 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
      *
+     * 入栈的废弃了,实现困难太大
+     * todo 使用递归
      * @param str
      * @param pattern
      * @return
      */
     public boolean match(char[] str, char[] pattern) {
-        if (str == null || str.length <= 0 || pattern == null || pattern.length <= 0) {
+        if (str == null || pattern == null) {
             return false;
         }
-        //解题思路,把pattern入栈,然后给str从后向前匹配
-        Stack<Character> patternStack = new Stack<>();
-        for (int i = 0; i < pattern.length; i++) {
-            //进行入栈
-            patternStack.push(pattern[i]);
-        }
-        return true;
+        int strIndex = 0;
+        int patternIndex = 0;
+        return matchCore(str, strIndex, pattern, patternIndex);
     }
+
+    public boolean matchCore(char[] str, int strIndex, char[] pattern, int patternIndex) {
+        //str到尾，pattern到尾，匹配成功
+        if (strIndex == str.length && patternIndex == pattern.length) {
+            return true;
+        }
+        //str未到尾，pattern到尾，匹配失败
+        if (strIndex != str.length && patternIndex == pattern.length) {
+            return false;
+        }
+        //str到尾，pattern未到尾(不一定匹配失败，因为a*可以匹配0个字符)
+        if (strIndex == str.length && patternIndex != pattern.length) {
+            //只有pattern剩下的部分类似a*b*c*的形式，才匹配成功
+            if (patternIndex + 1 < pattern.length && pattern[patternIndex + 1] == '*') {
+                return matchCore(str, strIndex, pattern, patternIndex + 2);
+            }
+            return false;
+        }
+
+        //str未到尾，pattern未到尾
+        if (patternIndex + 1 < pattern.length && pattern[patternIndex + 1] == '*') {
+            if (pattern[patternIndex] == str[strIndex] || (pattern[patternIndex] == '.' && strIndex != str.length)) {
+                return matchCore(str, strIndex, pattern, patternIndex + 2)//*匹配0个，跳过
+                        || matchCore(str, strIndex + 1, pattern, patternIndex + 2)//*匹配1个，跳过
+                        || matchCore(str, strIndex + 1, pattern, patternIndex);//*匹配1个，再匹配str中的下一个
+            } else {
+                //直接跳过*（*匹配到0个）
+                return matchCore(str, strIndex, pattern, patternIndex + 2);
+            }
+        }
+
+        if (pattern[patternIndex] == str[strIndex] || (pattern[patternIndex] == '.' && strIndex != str.length)) {
+            return matchCore(str, strIndex + 1, pattern, patternIndex + 1);
+        }
+
+        return false;
+    }
+
 
 
 
@@ -235,7 +269,7 @@ public class Sum {
         char[] charArray = {'+', '-', '2', '.', '3'};
         System.out.println(sum.isNumeric(charArray));
 
-        String pattern ="ab*ac*a";
+        String pattern ="ab*a";
         String str = "aaa";
         System.out.println("正则判断："+ sum.match(str.toCharArray(), pattern.toCharArray()));
     }
