@@ -43,12 +43,12 @@ public class Dp {
         char[] cb = b.toCharArray();
         //需要多申请一位,下面计算的时候会用到
         int[][] dp = new int[a.length() + 1][b.length() + 1];
-        for(int i = 1 ; i <= a.length() ; i++){
-            for(int j = 1 ; j <= b.length() ; j++){
-                if(ca[i - 1] == cb[j - 1]){
+        for (int i = 1; i <= a.length(); i++) {
+            for (int j = 1; j <= b.length(); j++) {
+                if (ca[i - 1] == cb[j - 1]) {
                     dp[i][j] = dp[i - 1][j - 1] + 1;
-                }else{
-                    dp[i][j] = Math.max(dp[i - 1][j] , dp[i][j - 1]);
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
                 }
             }
         }
@@ -105,12 +105,54 @@ public class Dp {
         return s.charAt(i - 1) == p.charAt(j - 1);
     }
 
+    /**
+     * 给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
+     *
+     * @param s 字符串
+     * @return 回文子串   回文 ： 类似 ： 12321 这种
+     */
+    public String longestPalindrome(String s) {
+
+        return null;
+    }
+
+
+    /**
+     * 一个数组有 N 个元素，求连续子数组的最大和。 例如：[-1,2,1]，和最大的连续子数组为[2,1]，其和为 3
+     *
+     * @param a 整形数组
+     * @return 连续子数组的最大和
+     */
+    public int maxSum(int[] a) {
+        if (a == null || a.length <= 0) {
+            return 0;
+        }
+        int length = a.length;
+        //申请动态规划存储连续子数组的最大和数组
+        int[][] dp = new int[length + 1][length + 1];
+        int max = a[0];
+        for (int i = 0; i <= length; i++) {
+            for (int j = 1; j + i <= length; j++) {
+                int k = j + i;
+                //代表从i到k位置的连续子数组的最大和,进行动态规划
+                dp[i][k] = dp[i][k - 1] + a[k - 1];
+                if (max < dp[i][k]) {
+                    max = dp[i][k];
+                }
+            }
+        }
+        return max;
+    }
+
     public static void main(String[] args) {
         Dp dp = new Dp();
-        boolean aaa = dp.isMatch("aaa", "ab*ac*a");
-        System.out.println(aaa);
+//        boolean aaa = dp.isMatch("aaa", "ab*ac*a");
+//        System.out.println(aaa);
 
 //        int sqrtStringLength = dp.getSqrtStringLength("bfrankfurt");
 //        System.out.println("平方串:" + sqrtStringLength);
+        int[] a= {-1};
+        int i = dp.maxSum(a);
+        System.out.println(i);
     }
 }
