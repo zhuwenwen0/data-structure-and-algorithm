@@ -122,6 +122,9 @@ public class Dp {
      *
      * @param a 整形数组
      * @return 连续子数组的最大和
+     *
+     * todo 会导致内存使用过大
+     *
      */
     public int maxSum(int[] a) {
         if (a == null || a.length <= 0) {
