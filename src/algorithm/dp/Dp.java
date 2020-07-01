@@ -127,21 +127,35 @@ public class Dp {
      *
      */
     public int maxSum(int[] a) {
-        if (a == null || a.length <= 0) {
-            return 0;
-        }
-        int length = a.length;
-        //申请动态规划存储连续子数组的最大和数组
-        int[][] dp = new int[length + 1][length + 1];
+        //空间复杂度 O(n2)
+//        if (a == null || a.length <= 0) {
+//            return 0;
+//        }
+//        int length = a.length;
+//        //申请动态规划存储连续子数组的最大和数组
+//        int[][] dp = new int[length + 1][length + 1];
+//        int max = a[0];
+//        for (int i = 0; i <= length; i++) {
+//            for (int j = 1; j + i <= length; j++) {
+//                int k = j + i;
+//                //代表从i到k位置的连续子数组的最大和,进行动态规划
+//                dp[i][k] = dp[i][k - 1] + a[k - 1];
+//                if (max < dp[i][k]) {
+//                    max = dp[i][k];
+//                }
+//            }
+//        }
+//        return max;
+
+        //空间复杂度O(n)
+        int[] dp = new int[a.length];
+        dp[0] = a[0];
         int max = a[0];
-        for (int i = 0; i <= length; i++) {
-            for (int j = 1; j + i <= length; j++) {
-                int k = j + i;
-                //代表从i到k位置的连续子数组的最大和,进行动态规划
-                dp[i][k] = dp[i][k - 1] + a[k - 1];
-                if (max < dp[i][k]) {
-                    max = dp[i][k];
-                }
+        for (int i = 1; i < a.length; i++) {
+            //dp[i-1]就是前面数组连续子数组的最大值
+            dp[i] = Math.max(dp[i- 1] + a[i], a[i]);
+            if (max < dp[i]) {
+                max = dp[i];
             }
         }
         return max;
