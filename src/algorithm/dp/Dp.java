@@ -1,7 +1,5 @@
 package algorithm.dp;
 
-import algorithm.string.Solution;
-
 /**
  * 动态规划
  *
@@ -11,30 +9,59 @@ import algorithm.string.Solution;
 public class Dp {
 
     /**
-     * 如果一个字符串S是由两个字符串T连接而成,即S = T + T, 我们就称S叫做平方串,例如"","aabaab","xxxx"都是平方串.
+     * 平方串问题：如果一个字符串S是由两个字符串T连接而成,即S = T + T, 我们就称S叫做平方串,例如"","aabaab","xxxx"都是平方串.
      * 牛牛现在有一个字符串s,请你帮助牛牛从s中移除尽量少的字符,让剩下的字符串是一个平方串。换句话说,就是找出s的最长子序列并且这个子序列构成一个平方串。
-     *
+     * <p>
      * 输入：输入一个字符串s,字符串长度length(1 ≤ length ≤ 50),字符串只包括小写字符。
-     *
+     * <p>
      * 输出：输出一个正整数,即满足要求的平方串的长度。
-     *
+     * <p>
      * eg: 输入：bfrankfurt
-     *
+     * <p>
      * 输出：4
+     * <p>
+     * 思路：把字符串切割成两个字符串，然后求两个字符串的最大子序列
      */
 
     public int getSqrtStringLength(String str) {
-        return 0;
+        if (str == null || str == "") {
+            return 0;
+        }
+        int res = 0;
+        for (int i = 1; i < str.length(); i++) {
+            //截取字符串
+            String a = str.substring(0, i);
+            String b = str.substring(i);
+            res = Math.max(res, dp(a, b));
+        }
+        return res;
+    }
+
+    private int dp(String a, String b) {
+        //计算两字符串的含有的最大子字符串
+        char[] ca = a.toCharArray();
+        char[] cb = b.toCharArray();
+        //需要多申请一位,下面计算的时候会用到
+        int[][] dp = new int[a.length() + 1][b.length() + 1];
+        for(int i = 1 ; i <= a.length() ; i++){
+            for(int j = 1 ; j <= b.length() ; j++){
+                if(ca[i - 1] == cb[j - 1]){
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                }else{
+                    dp[i][j] = Math.max(dp[i - 1][j] , dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[a.length()][b.length()] * 2;
     }
 
 
     /**
      * 请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可以出现任意次（包含0次）。
      * 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
-     *
+     * <p>
      * 入栈的废弃了,实现困难太大
      * 使用动态规划： 动态规划最主要的就是状态转移,
-     *
      *
      * @param s
      * @param p
@@ -51,12 +78,14 @@ public class Dp {
         for (int i = 0; i <= m; ++i) {
             for (int j = 1; j <= n; ++j) {
                 if (p.charAt(j - 1) == '*') {
+                    //如果s[i]和p[j-1]不匹配的话,那么f[i][j]即为f[i][j-2]的值
                     f[i][j] = f[i][j - 2];
                     if (matches(s, p, i, j - 1)) {
+                        //如果s[i]和p[j-1]匹配的话,那么f[i][j] = ( f[i][j-2] || f[i-1][j] )
+                        // 注：f[i-1][j]代表如果匹配了，那么就删除这个字符，并且j的*组合可以继续匹配
                         f[i][j] = f[i][j] || f[i - 1][j];
                     }
-                }
-                else {
+                } else {
                     if (matches(s, p, i, j)) {
                         f[i][j] = f[i - 1][j - 1];
                     }
@@ -74,5 +103,14 @@ public class Dp {
             return true;
         }
         return s.charAt(i - 1) == p.charAt(j - 1);
+    }
+
+    public static void main(String[] args) {
+        Dp dp = new Dp();
+        boolean aaa = dp.isMatch("aaa", "ab*ac*a");
+        System.out.println(aaa);
+
+//        int sqrtStringLength = dp.getSqrtStringLength("bfrankfurt");
+//        System.out.println("平方串:" + sqrtStringLength);
     }
 }
