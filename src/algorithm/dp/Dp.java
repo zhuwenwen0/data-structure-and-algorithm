@@ -123,7 +123,7 @@ public class Dp {
      * @param a 整形数组
      * @return 连续子数组的最大和
      *
-     * todo 会导致内存使用过大
+     * todo 会导致内存使用过大，牛客上可以，leetcode数组过大会导致内存超过
      *
      */
     public int maxSum(int[] a) {
