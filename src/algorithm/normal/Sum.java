@@ -1,5 +1,7 @@
 package algorithm.normal;
 
+import java.util.ArrayList;
+
 /**
  * @author zhuwenwen
  * @date 13:57 24-06-2020
@@ -246,31 +248,68 @@ public class Sum {
         return false;
     }
 
+    /**
+     * 滑动窗口的最大值
+     *
+     * @param num
+     * @param size
+     * @return
+     */
+    public ArrayList<Integer> maxInWindows(int [] num, int size) {
+        if(num == null || num.length <= 0) {
+            return new ArrayList<>();
+        }
+        if (size <= 0) {
+            return new ArrayList<>();
+        }
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for (int i = 0; i < num.length; i++) {
+            if ((i + size - 1) >= num.length) {
+                break;
+            }
+            int k = i + size - 1;
+            int max = num[i];
+            for (int j = i + 1; j <= k; j++) {
+                if (num[j] > max) {
+                    max = num[j];
+                }
+            }
+            arrayList.add(max);
+        }
+        return arrayList;
+    }
+
 
 
 
     public static void main(String[] args) {
         Sum sum = new Sum();
-        int i = sum.Sum_Solution(3);
-        //System.out.println(i);
-        int i1 = sum.StrToInt("1a90");
-        System.out.println(i1);
+//        int i = sum.Sum_Solution(3);
+//        //System.out.println(i);
+//        int i1 = sum.StrToInt("1a90");
+//        System.out.println(i1);
+//
+//
+//        //表示-1 * 10的-1次方,也可以写成大写的E, e后面的数值必须为整数
+//        double v = -1E-1;
+//        double v1 = 10e2;
+//        System.out.println();
+//        System.out.println("ss:" + v);
+//
+//        double v2 = .123;
+//        System.out.println("v2 is " + v2);
+//
+//        char[] charArray = {'+', '-', '2', '.', '3'};
+//        System.out.println(sum.isNumeric(charArray));
+//
+//        String pattern ="ab*a";
+//        String str = "aaa";
+//        System.out.println("正则判断："+ sum.match(str.toCharArray(), pattern.toCharArray()));
 
-
-        //表示-1 * 10的-1次方,也可以写成大写的E, e后面的数值必须为整数
-        double v = -1E-1;
-        double v1 = 10e2;
-        System.out.println();
-        System.out.println("ss:" + v);
-
-        double v2 = .123;
-        System.out.println("v2 is " + v2);
-
-        char[] charArray = {'+', '-', '2', '.', '3'};
-        System.out.println(sum.isNumeric(charArray));
-
-        String pattern ="ab*a";
-        String str = "aaa";
-        System.out.println("正则判断："+ sum.match(str.toCharArray(), pattern.toCharArray()));
+        int[] nums = {2,3,4,2,6,2,5,1};
+        ArrayList<Integer> integers = sum.maxInWindows(nums, 3);
+        for (int i = 0; i < integers.size(); i++) {
+            System.out.print(integers.get(i));
+        }
     }
 }
