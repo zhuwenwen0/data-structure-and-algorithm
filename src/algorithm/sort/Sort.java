@@ -83,6 +83,66 @@ public class Sort {
         }
     }
 
+
+    /**
+     * 堆排序,大顶堆
+     *
+     * @param nums
+     */
+    public void heapSort(int[] nums) {
+        if (nums == null || nums.length <= 0) {
+            return;
+        }
+        for (int i = nums.length - 1; i > 0; i--) {
+            swim(i, nums);
+        }
+    }
+
+    public void swim(int index, int[] nums) {
+        //如果子节点比其父节点大,并且index不能是头结点
+        while (nums[index] > nums[index / 2] && index != 1) {
+            swap(index, index / 2, nums);
+            index = index / 2;
+        }
+    }
+
+    public void swap(int index1, int index2, int[] nums) {
+        if (index1 <= 0 || index2 <= 0) {
+            return;
+        }
+        int temp = nums[index1];
+        nums[index1] = nums[index2];
+        nums[index2] = temp;
+    }
+
+    public int del(int[] nums) {
+        if (nums == null || nums.length <= 1) {
+            return 0;
+        }
+        if (nums.length == 2) {
+            return nums[1];
+        }
+        int top = nums[1];
+        nums[1] = nums[nums.length -1];
+        //令最后一个元素为空,方便回收
+        nums[nums.length -1] = 0;
+        //进行下沉,维护堆的性质
+        sink(1, nums);
+        return top;
+    }
+
+    public void sink(int index, int[] nums) {
+        while (index * 2 <= nums.length -1 && (nums[index] < nums[index * 2] || (index * 2 + 1 <= nums.length -1  && (nums[index] < nums[index * 2 + 1] )))) {
+            if (nums[index * 2] >= nums[index * 2 + 1]) {
+                swap(index, index * 2, nums);
+                index = index * 2;
+            } else {
+                swap(index, index * 2 + 1, nums);
+                index = index * 2 + 1;
+            }
+        }
+    }
+
     /**
      * 二分查找
      *
@@ -120,7 +180,17 @@ public class Sort {
 //        for (int i = 0; i < ints.length; i++) {
 //            System.out.println(ints[i]);
 //        }
-        sort.rec(10);
+        //sort.rec(10);
+
+        int[] b = {0, 1, 3, 5, 4, 8, 7, 6, 2};
+        sort.heapSort(b);
+
+        sort.del(b);
+        sort.del(b);
+        sort.del(b);
+        for (int i = 1; i < b.length; i++) {
+            System.out.println(b[i]);
+        }
     }
 
 
