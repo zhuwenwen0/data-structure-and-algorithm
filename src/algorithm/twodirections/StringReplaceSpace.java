@@ -1,5 +1,7 @@
 package algorithm.twodirections;
 
+import java.util.ArrayList;
+
 /**
  * @author zhuwenwen
  * @date 2019/1/31 22:31
@@ -43,5 +45,37 @@ public class StringReplaceSpace {
             }
         }
         return str.substring(0,str.length());
+    }
+
+
+
+    /**
+     * 输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的
+     *
+     * @param array
+     * @param sum
+     * @return
+     */
+    public ArrayList<Integer> FindNumbersWithSum(int [] array, int sum) {
+        if(array == null || array.length <= 0) {
+            return new ArrayList();
+        }
+        ArrayList<Integer> list = new ArrayList();
+        int i = 0; int k = array.length -1;
+        while (i != k) {
+            if(array[i] + array[k] == sum) {
+                list.add(array[i]);
+                list.add(array[k]);
+                break;
+            } else if (array[i] + array[k] > sum) {
+                //如果大于的话，说明这个不符合，让k-1, i重新开始遍历
+                k--;
+                i = 0;
+            } else {
+                //如果小于的话，说明i需要加1
+                i++;
+            }
+        }
+        return list;
     }
 }
