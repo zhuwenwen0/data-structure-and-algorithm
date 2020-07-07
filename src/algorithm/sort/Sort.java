@@ -1,6 +1,24 @@
 package algorithm.sort;
 
 public class Sort {
+
+    public void bubbleSort(int[] numbers) {
+        if (numbers == null || numbers.length < 5) {
+            return;
+        }
+        //冒泡排序
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = 0; j < numbers.length - i - 1; j++) {
+                if (numbers[j] > numbers[j + 1]) {
+                    //每次把最大的向后冒泡
+                    int temp = numbers[j + 1];
+                    numbers[j + 1] = numbers[j];
+                    numbers[j] = temp;
+                }
+            }
+        }
+    }
+
     /**
      * 快速排序
      *

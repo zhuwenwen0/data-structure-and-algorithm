@@ -197,9 +197,10 @@ public class Sum {
     /**
      * 请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可以出现任意次（包含0次）。
      * 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
-     *
+     * <p>
      * 入栈的废弃了,实现困难太大
      * todo 使用递归
+     *
      * @param str
      * @param pattern
      * @return
@@ -260,8 +261,8 @@ public class Sum {
      * @param size
      * @return
      */
-    public ArrayList<Integer> maxInWindows(int [] num, int size) {
-        if(num == null || num.length <= 0) {
+    public ArrayList<Integer> maxInWindows(int[] num, int size) {
+        if (num == null || num.length <= 0) {
             return new ArrayList<>();
         }
         if (size <= 0) {
@@ -292,25 +293,164 @@ public class Sum {
      * @param array
      * @return
      */
-    public int MoreThanHalfNum_Solution(int [] array) {
-        if(array == null || array.length <= 0) {
+    public int MoreThanHalfNum_Solution(int[] array) {
+        if (array == null || array.length <= 0) {
             return 0;
         }
         Map<Integer, Integer> map = new HashMap<>();
-        for(int i = 0; i< array.length ; i++) {
-            if(map.get(array[i]) != null) {
+        for (int i = 0; i < array.length; i++) {
+            if (map.get(array[i]) != null) {
                 map.put(array[i], map.get(array[i]) + 1);
             } else {
                 map.put(array[i], 1);
             }
         }
 
-        for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            if(entry.getValue() > array.length / 2) {
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (entry.getValue() > array.length / 2) {
                 return entry.getKey();
             }
         }
         return 0;
+    }
+
+    /**
+     * 判断扑克牌是否是顺子
+     *
+     * @param numbers
+     * @return
+     */
+    public boolean isContinuous(int[] numbers) {
+        if (numbers == null || numbers.length < 5) {
+            return false;
+        }
+        //冒泡排序
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = 0; j < numbers.length - i - 1; j++) {
+                if (numbers[j] > numbers[j + 1]) {
+                    //每次把最大的向后冒泡
+                    int temp = numbers[j + 1];
+                    numbers[j + 1] = numbers[j];
+                    numbers[j] = temp;
+                }
+            }
+        }
+        //把排序完成的牌，放到数组中,然后计算是否有缺失的牌，如果没有直接返回true,如果有缺失的牌,然后缺失的牌和鬼牌一样多的话，也是顺子
+        int ghostCardNum = 0;
+        int missingCard = 0;
+        for (int i = 0; i < numbers.length - 1; i++) {
+            if (numbers[i] == 0) {
+                ghostCardNum++;
+            } else {
+                //如果这张牌和后一张牌一样，直接返回false
+                if (numbers[i] == numbers[i + 1]) {
+                    return false;
+                }
+                missingCard = missingCard + numbers[i + 1] - numbers[i] - 1;
+            }
+        }
+        if (ghostCardNum >= missingCard || missingCard == 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 小明很喜欢数学,有一天他在做数学作业时,要求计算出9~16的和,他马上就写出了正确答案是100。
+     * 但是他并不满足于此,他在想究竟有多少种连续的正数序列的和为100(至少包括两个数)。
+     * 没多久,他就得到另一组连续正数和为100的序列:18,19,20,21,22。现在把问题交给你,你能不能也很快的找出所有和为S的连续正数序列?
+     *
+     * @param sum
+     * @return
+     */
+    public ArrayList<ArrayList<Integer>> FindContinuousSequence(int sum) {
+        if (sum <= 0) {
+            return new ArrayList<>();
+        }
+        ArrayList<ArrayList<Integer>> arrayLists = new ArrayList<>();
+        for (int i = 1; i < sum; i++) {
+            int count = 1;
+            int sumI = i;
+            while (sumI < sum) {
+                sumI = sumI + i + count;
+                count++;
+            }
+            if (sumI == sum) {
+                ArrayList<Integer> arrayList = new ArrayList<>();
+                for (int j = 0; j < count; j++) {
+                    arrayList.add(i + j);
+                }
+                arrayLists.add(arrayList);
+            }
+        }
+        return arrayLists;
+    }
+
+
+    /**
+     * 统计一个数字在排序数组中出现的次数。
+     * 使用二分查找,先找出其中k的位置，然后向两边扩散统计
+     *
+     * @param array
+     * @param k
+     * @return
+     */
+    public int GetNumberOfK(int[] array, int k) {
+        if (array == null || array.length <= 0) {
+            return 0;
+        }
+        if (array[0] == k) {
+            return countNum(array, 0);
+        }
+        if (array[array.length - 1] == k) {
+            return countNum(array, array.length - 1);
+        }
+        //进行二分查找,找到k
+        int start = 0;
+        int end = array.length - 1;
+        int position = 0;
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            if (array[mid] > k) {
+                end = mid - 1;
+            } else if (array[mid] < k) {
+                start = mid + 1;
+            } else {
+                position = mid;
+                break;
+            }
+        }
+        if (position != 0) {
+            return countNum(array,position);
+        }
+        return 0;
+    }
+
+    private int countNum(int[] array, int start) {
+        int left = start - 1;
+        int right = start + 1;
+        boolean leftBreak = false;
+        boolean rightBreak = false;
+        int count = 1;
+        while (true) {
+            if (!leftBreak && left >= 0 && array[start] ==array[left]) {
+                count++;
+                left --;
+            } else {
+                leftBreak = true;
+            }
+            if (!rightBreak && right <= array.length - 1 && array[start] ==array[right]) {
+                count++;
+                right ++;
+            } else {
+                rightBreak = true;
+            }
+            if (leftBreak && rightBreak) {
+                break;
+            }
+        }
+        return count;
     }
 
     public static void main(String[] args) {
@@ -337,10 +477,26 @@ public class Sum {
 //        String str = "aaa";
 //        System.out.println("正则判断："+ sum.match(str.toCharArray(), pattern.toCharArray()));
 
-        int[] nums = {2,3,4,2,6,2,5,1};
-        ArrayList<Integer> integers = sum.maxInWindows(nums, 3);
-        for (int i = 0; i < integers.size(); i++) {
-            System.out.print(integers.get(i));
-        }
+//        int[] nums = {2,3,4,2,6,2,5,1};
+//        ArrayList<Integer> integers = sum.maxInWindows(nums, 3);
+//        for (int i = 0; i < integers.size(); i++) {
+//            System.out.print(integers.get(i));
+//        }
+
+//        ArrayList<ArrayList<Integer>> arrayLists = sum.FindContinuousSequence(100);
+//        int printI = 0;
+//        for (int i = 0; i < arrayLists.size(); i++) {
+//            for (int j = 0; j < arrayLists.get(i).size(); j++) {
+//                if (printI == i) {
+//                    System.out.print(arrayLists.get(i).get(j) + " ");
+//                } else {
+//                    System.out.println();
+//                    System.out.print(arrayLists.get(i).get(j) + " ");
+//                    printI = i;
+//                }
+//            }
+//        }
+        int[] a = {1,3, 5,6,7,7,7,7,9,10};
+        System.out.println(sum.GetNumberOfK(a, 7));
     }
 }
