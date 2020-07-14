@@ -16,7 +16,16 @@ public class GcdAndLcm {
      * @return
      */
     public int getGcd(int[] a) {
-        return 0;
+        if (a == null || a.length <= 0) {
+            return 0;
+        }
+        int gcd = a[0];
+        int start = 1;
+        while (start <= a.length - 1) {
+            gcd = getGcdTwoNum(gcd, a[start]);
+            start ++;
+        }
+        return gcd;
     }
 
 
@@ -30,15 +39,27 @@ public class GcdAndLcm {
         return 0;
     }
 
+    /**
+     * 求两个数的最大公约数,辗转相除法
+     *
+     * @param num1 num1
+     * @param num2 num2
+     * @return
+     */
     public int getGcdTwoNum(int num1, int num2) {
-        if (num1 < num2) {
-            int tem = num1;
-            num1 = num2;
-            num2 = tem;
+        int big = num1 > num2 ? num1 : num2;
+        int small = num1 < num2 ? num1 : num2;
+        while (big % small != 0) {
+            int result = big % small;
+            big = small > result ? small : result;
+            small = small > result ? result : small;
         }
-        while (num1 % num2 != 0) {
-            num1 = num1 % num2;
-        }
-        return 0;
+        return small;
+    }
+
+    public static void main(String[] args) {
+        GcdAndLcm gcdAndLcm = new GcdAndLcm();
+        int[] a = {9, 8, 12};
+        System.out.println(gcdAndLcm.getGcd(a));
     }
 }
