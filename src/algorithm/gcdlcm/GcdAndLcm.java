@@ -23,7 +23,7 @@ public class GcdAndLcm {
         int start = 1;
         while (start <= a.length - 1) {
             gcd = getGcdTwoNum(gcd, a[start]);
-            start ++;
+            start++;
         }
         return gcd;
     }
@@ -36,7 +36,14 @@ public class GcdAndLcm {
      * @return
      */
     public int getLcm(int[] a) {
-        return 0;
+        if (a == null || a.length < 0) {
+            return 0;
+        }
+        int lcm = a[0];
+        for (int i = 1; i < a.length; i++) {
+            lcm = lcm * a[i] / getGcdTwoNum(lcm, a[i]);
+        }
+        return lcm;
     }
 
     /**
@@ -59,7 +66,8 @@ public class GcdAndLcm {
 
     public static void main(String[] args) {
         GcdAndLcm gcdAndLcm = new GcdAndLcm();
-        int[] a = {9, 8, 12};
+        int[] a = {3, 4, 6};
         System.out.println(gcdAndLcm.getGcd(a));
+        System.out.println(gcdAndLcm.getLcm(a));
     }
 }
