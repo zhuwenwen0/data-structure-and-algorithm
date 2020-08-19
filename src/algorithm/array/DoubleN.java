@@ -74,6 +74,35 @@ public class DoubleN {
 
     }
 
+    /**
+     * 求给定n个非负整数a1，a2，…，an，其中每个数字表示坐标(i, ai)处的一个点。
+     * 以（i，ai）和（i，0）（i=1,2,3...n）为端点画出n条直线。你可以从中选择两条线与x轴一起构成一个容器，最大的容器能装多少水？
+     *
+     * @param height
+     * @return
+     */
+    public int maxArea(int[] height) {
+        if (height.length<2){
+            return 0;
+        }
+
+        int left = 0;
+        int right = height.length-1;
+        int maxV = 0;
+
+        while (left<right){
+            int v = Math.min(height[left],height[right])*(right-left);
+            maxV = Math.max(v,maxV);
+            if (height[left]<height[right]){
+                left++;
+            }else {
+                right--;
+            }
+        }
+
+        return maxV;
+    }
+
     public static void main(String[] args) {
         DoubleN doubleN = new DoubleN();
 //        double power = doubleN.Power(-2, -3);
@@ -83,6 +112,8 @@ public class DoubleN {
         for (int i = 0; i < array.length; i++) {
             System.out.println(array[i]);
         }
+        int[] a = {1, 8, 10, 11, 12, 20, 10, 7};
+        System.out.println(doubleN.maxArea(a));
     }
 
 }

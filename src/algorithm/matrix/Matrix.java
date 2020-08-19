@@ -1,6 +1,9 @@
 package algorithm.matrix;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Stack;
 
 /**
@@ -222,6 +225,36 @@ public class Matrix {
             }
         }
         return count;
+    }
+
+    /**
+     * 动态规划规避矩阵中障碍物的算法,矩阵中最大的点,一直到原点,一共可以有多少条路径
+     *
+     * @param martrix
+     * @return
+     */
+    public static long pathNum(int[][] martrix) {
+        if (martrix == null || martrix.length == 0) {
+            return 0;
+        }
+        int row = martrix.length;
+        int col = martrix[0].length;
+        long[][] dp = new long[row][col];
+        for (int i = dp.length - 1; i >= 0; i--) {
+            for (int j = dp[0].length - 1; j >= 0; j--) {
+                if (i == row - 1 && j == col - 1) {
+                    dp[i][j] = 1;
+                    continue;
+                }
+                //如果i和j是障碍物的话
+                if (martrix[i][j] == 1) {
+                    dp[i][j] = 0;
+                } else {
+                    dp[i][j] = (i + 1 >= row ? 0 : dp[i + 1][j]) + (j + 1 >= col ? 0 : dp[i][j + 1]);
+                }
+            }
+        }
+        return dp[0][0];
     }
 
     /**
