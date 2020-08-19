@@ -23,6 +23,30 @@ public class Sum {
         return n + Sum_Solution(n - 1);
     }
 
+    /**
+     * 求最长不重复子串
+     *
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring (String s) {
+        if(s == null || s.length() == 0) {
+            return 0;
+        }
+        Map<Character, Integer> map = new HashMap<>();
+        int start = 0;
+        int result = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (map.containsKey(s.charAt(i))) {
+                start = Math.max(map.get(s.charAt(i)) + 1 , start);
+            }
+            map.put(s.charAt(i), i);
+            result = Math.max(result, i - start + 1);
+        }
+        return result;
+    }
+
+
 
     /**
      * 每年六一儿童节,都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。
@@ -496,7 +520,8 @@ public class Sum {
 //                }
 //            }
 //        }
-        int[] a = {1,3, 5,6,7,7,7,7,9,10};
-        System.out.println(sum.GetNumberOfK(a, 7));
+//        int[] a = {1,3, 5,6,7,7,7,7,9,10};
+//        System.out.println(sum.GetNumberOfK(a, 7));
+        System.out.println(sum.lengthOfLongestSubstring("abcdabcdefa"));
     }
 }
