@@ -93,6 +93,30 @@ public class BinaryTree {
     }
 
     /**
+     * 非递归前序遍历,使用栈来解决
+     */
+    public void preOrderWithOut(TreeNode treeNode) {
+        if (treeNode == null) {
+            return;
+        }
+        //根据递归的代码可以看出是先从根节点进行遍历，然后一直往下直到找到最左的节点，然后遍历最左节点的右节点，再回溯上去
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(treeNode);
+        while (!stack.isEmpty()) {
+            TreeNode pop = stack.pop();
+            System.out.println(pop.value);
+            //先把右节点放到下面，这样可以最后遍历
+            if (pop.rchild != null) {
+                stack.push(pop.rchild);
+            }
+            if (pop.lchild != null) {
+                stack.push(pop.lchild);
+            }
+        }
+    }
+
+
+    /**
      * 中序遍历
      *
      * @param treeNode 二叉树的头结点
@@ -382,6 +406,112 @@ public class BinaryTree {
     }
 
 
+    /**
+     * 给定一棵二叉树以及这棵树上的两个节点 o1 和 o2，请找到 o1 和 o2 的最近公共祖先节点
+     * 使用递归查找左子树和右子树
+     *
+     * @param root
+     * @param o1
+     * @param o2
+     * @return
+     */
+    public int lowestCommonAncestor(TreeNode root, int o1, int o2) {
+        // write code here
+        if (root == null) {
+            return 0;
+        }
+        if (root.value == o1 || root.value == o2) {
+            return root.value;
+        }
+        int left = lowestCommonAncestor(root.lchild, o1, o2);
+        int right = lowestCommonAncestor(root.rchild, o1, o2);
+        if (left != 0 && right != 0) {
+            return root.value;
+        }
+        if (left == 0) {
+            return right;
+        }
+        if (right == 0) {
+            return left;
+        }
+        return 0;
+    }
+
+
+    /**
+     * 给定一棵二叉树以及这棵树上的两个节点 o1 和 o2，请找到 o1 和 o2 的最近公共祖先节点
+     * 思路：使用递归求出o1节点所有的父节点，然后求出o2节点所有的父节点，然后取出最近公共祖先节点,
+     * <p>
+     * 已过时
+     *
+     * @param root
+     * @param o1
+     * @param o2
+     * @return
+     */
+    @Deprecated
+    public int lowestCommonAncestorDeprecated(TreeNode root, int o1, int o2) {
+        // write code here
+        if (root == null) {
+            return 0;
+        }
+        List<TreeNode> parentNodeO1 = findParentNode(root, o1);
+        List<TreeNode> parentNodeO2 = findParentNode(root, o2);
+
+        int size = parentNodeO1.size() > parentNodeO2.size() ? parentNodeO2.size() : parentNodeO1.size();
+        for (int i = 0; i < size; i++) {
+            if (parentNodeO1.get(i) != parentNodeO2.get(i)) {
+                return parentNodeO1.get(i - 1).value;
+            }
+            if (i == size - 1) {
+                return parentNodeO1.get(i).value;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * 从根节点找出相关节点的所有父节点
+     *
+     * @param root
+     * @param value
+     * @return
+     */
+    private List<TreeNode> findParentNode(TreeNode root, int value) {
+        List<TreeNode> o1List = new ArrayList<>();
+        TreeNode temp = root;
+        while (true) {
+            o1List.add(temp);
+            if (findTreeNode(temp.lchild, value)) {
+                temp = temp.lchild;
+            } else if (findTreeNode(temp.rchild, value)) {
+                temp = temp.rchild;
+            } else {
+                break;
+            }
+        }
+        return o1List;
+    }
+
+    /**
+     * 判断一个节点是否存在于输入根节点所在的二叉树中
+     *
+     * @param root
+     * @param value
+     * @return
+     */
+    private boolean findTreeNode(TreeNode root, int value) {
+        if (root == null) {
+            return false;
+        }
+        if (root.value == value) {
+            return true;
+        }
+        boolean lchildFind = findTreeNode(root.lchild, value);
+        boolean rchildFind = findTreeNode(root.rchild, value);
+        return lchildFind || rchildFind;
+    }
 
 
     public static void main(String[] args) {
@@ -391,16 +521,19 @@ public class BinaryTree {
 //        int[] in = {9,8,4,2,7,10,11};
 //        int[] pre = {10,8,9,2,4,7,11};
         TreeNode treeNode = binaryTree.reConstructBinaryTree(pre, in);
+
+        int i = binaryTree.lowestCommonAncestor(treeNode, 4, 3);
+        System.out.println(i);
 ////
 //        int[] pre1 = {8,9,2};
 //        int[] in1 = {9,8,2};
 //        TreeNode treeNode2 = binaryTree.reConstructBinaryTree(pre1, in1);
-        ArrayList<ArrayList<Integer>> pathSumOfNum = binaryTree.getPathSumOfNum(treeNode, 8);
-        for (ArrayList<Integer> integers : pathSumOfNum) {
-            for (int i = 0; i < integers.size(); i++) {
-                System.out.println(integers.get(i));
-            }
-        }
+//        ArrayList<ArrayList<Integer>> pathSumOfNum = binaryTree.getPathSumOfNum(treeNode, 8);
+//        for (ArrayList<Integer> integers : pathSumOfNum) {
+//            for (int i = 0; i < integers.size(); i++) {
+//                System.out.println(integers.get(i));
+//            }
+//        }
 //        System.out.println("--------二叉树的深度-------");
 //        System.out.println(binaryTree.binaryTreeDepth(treeNode));
 //        System.out.println("------前序遍历---------");
