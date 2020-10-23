@@ -75,6 +75,10 @@ public class LinkedListCustom {
         //重新构建一条链表，思路是先把头结点的下一节点地址赋给nextNode,记录当前头结点下一节点的地址，
         // 然后把当前头结点的下一节点地址指向空
         //再然后把空指针指向头结点的地址，然后把头指针后移到nextNode的地址，继续下一步反转
+
+        //比如   1 -> 2  -> 3  -> 4   第一步  1  2 -> 3 -> 4
+        //第二步   1  -<  2   3 -> 4
+        //第三步   1 -< 2 -< 3  4
         while (head != null) {
             nextNode = head.nextNode;
             head.nextNode = temp;
@@ -105,6 +109,27 @@ public class LinkedListCustom {
         }
         return temp;
     }
+
+
+    /**
+     * 输入两个链表，找出它们的第一个公共结点。（注意因为传入数据是链表，所以错误测试数据的提示是用其他方式显示的，保证传入数据是正确的）
+     *
+     *          4  5  6  8
+     *                       10  12
+     * 8  9  11  18  20  22
+     *
+     * 比如上例：我们可以  4 + 2 + 6 = 6 + 2 + 4   就可以使用指针,当链表遍历完之后就从另外一个链表的头结点开始遍历
+     */
+    public Node FindFirstCommonNode(Node pHead1, Node pHead2) {
+        Node l1=pHead1, l2 = pHead2;
+        while (l1 != l2){
+            l1 = ((l1 == null) ? pHead2 : l1.nextNode);
+            l2 = ((l2 == null) ? pHead1 : l2.nextNode);
+        }
+        return l1;
+
+    }
+
 
     /**
      * o(1)复杂度实现删除链表中的节点
