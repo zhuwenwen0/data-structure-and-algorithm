@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * 排列组合
@@ -29,6 +30,7 @@ public class Combination {
         char[] chars = str.toCharArray();
         ArrayList<String> result = new ArrayList<>();
         Permutation(result, chars, 0, chars.length - 1);
+        Collections.sort(result);
         return result;
     }
 
@@ -41,10 +43,10 @@ public class Combination {
         }
         //第一次固定好字符串的首字母
         for (int i = index; i <= length; i++) {
-            //每个元素都和第一个元素进行交换
+            //每个元素都和第一个元素进行交换,进行固定首字母
             swap(index, i, chars);
 
-            //处理交换后的子序列，然后对子序列进行排列组合
+            //固定好首字母之后再固定第二个字母，处理交换后去掉首字母的子序列，然后对子序列进行排列组合
             Permutation(result, chars, index + 1, length);
 
             //然后把元素交换回去，进行下一次与第一个元素交换
