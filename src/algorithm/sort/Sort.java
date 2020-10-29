@@ -188,11 +188,11 @@ public class Sort {
 
     public static void main(String[] args) {
         Sort sort = new Sort();
-        int[] a = {3, 3, 9, 6, 8, 5, 7, 10, 17, 12, 15};
-        //sort.quickSort(a, 0, a.length - 1);
-//        for (int i = 0; i <a.length ; i++) {
-//            System.out.println(a[i]);
-//        }
+        int[] a = {11, 3, 9, 6, 8, 5, 7, 10, 17, 12, 15};
+        sort.quickSort(a, 0, a.length - 1);
+        for (int i = 0; i <a.length ; i++) {
+            System.out.println(a[i]);
+        }
         //System.out.println(sort.binarySearch(a, 0, a.length - 1, 11));
 //        int[] ints = sort.mergeSort(a, 0, a.length - 1);
 //        for (int i = 0; i < ints.length; i++) {
@@ -200,15 +200,15 @@ public class Sort {
 //        }
         //sort.rec(10);
 
-        int[] b = {0, 1, 3, 5, 4, 8, 7, 6, 2};
-        sort.heapSort(b);
-
-        sort.del(b);
-        sort.del(b);
-        sort.del(b);
-        for (int i = 1; i < b.length; i++) {
-            System.out.println(b[i]);
-        }
+//        int[] b = {0, 1, 3, 5, 4, 8, 7, 6, 2};
+//        sort.heapSort(b);
+//
+//        sort.del(b);
+//        sort.del(b);
+//        sort.del(b);
+//        for (int i = 1; i < b.length; i++) {
+//            System.out.println(b[i]);
+//        }
     }
 
 
