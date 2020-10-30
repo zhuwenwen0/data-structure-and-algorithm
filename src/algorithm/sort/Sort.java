@@ -2,6 +2,11 @@ package algorithm.sort;
 
 public class Sort {
 
+    /**
+     * 冒泡排序
+     *
+     * @param numbers
+     */
     public void bubbleSort(int[] numbers) {
         if (numbers == null || numbers.length < 5) {
             return;
@@ -16,6 +21,36 @@ public class Sort {
                     numbers[j] = temp;
                 }
             }
+        }
+    }
+
+
+    /**
+     * 插入排序
+     *
+     * @param a
+     */
+    public void insertSort(int[] a) {
+
+    }
+
+    /**
+     * 选择排序
+     *
+     * @param a
+     */
+    public void selectSort(int[] a) {
+        if (a == null || a.length == 0) {
+            return;
+        }
+        for (int i = 0; i < a.length; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < a.length; j++) {
+                if (a[j] <= a[minIndex]) {
+                    minIndex = j;
+                }
+            }
+            swap(minIndex,i, a);
         }
     }
 
@@ -125,7 +160,7 @@ public class Sort {
     }
 
     public void swap(int index1, int index2, int[] nums) {
-        if (index1 <= 0 || index2 <= 0) {
+        if (index1 < 0 || index2 < 0) {
             return;
         }
         int temp = nums[index1];
@@ -188,11 +223,11 @@ public class Sort {
 
     public static void main(String[] args) {
         Sort sort = new Sort();
-        int[] a = {11, 3, 9, 6, 8, 5, 7, 10, 17, 12, 15};
-        sort.quickSort(a, 0, a.length - 1);
-        for (int i = 0; i <a.length ; i++) {
-            System.out.println(a[i]);
-        }
+//        int[] a = {11, 3, 9, 6, 8, 5, 7, 10, 17, 12, 15};
+//        sort.quickSort(a, 0, a.length - 1);
+//        for (int i = 0; i <a.length ; i++) {
+//            System.out.println(a[i]);
+//        }
         //System.out.println(sort.binarySearch(a, 0, a.length - 1, 11));
 //        int[] ints = sort.mergeSort(a, 0, a.length - 1);
 //        for (int i = 0; i < ints.length; i++) {
@@ -200,15 +235,15 @@ public class Sort {
 //        }
         //sort.rec(10);
 
-//        int[] b = {0, 1, 3, 5, 4, 8, 7, 6, 2};
-//        sort.heapSort(b);
-//
-//        sort.del(b);
-//        sort.del(b);
-//        sort.del(b);
-//        for (int i = 1; i < b.length; i++) {
-//            System.out.println(b[i]);
-//        }
+        int[] b = {0, 1, 3, 5, 4, 8, 7, 6, 2};
+        sort.heapSort(b);
+
+        sort.del(b);
+        sort.del(b);
+        sort.del(b);
+        for (int i = 1; i < b.length; i++) {
+            System.out.println(b[i]);
+        }
     }
 
 
