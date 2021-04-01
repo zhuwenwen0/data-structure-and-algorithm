@@ -1,72 +1,67 @@
 package struceure.lru;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * 思路，肯定需要map来实现get操作的o(1),肯定也需要链表
- *
  * @author zhuwenwen
- * @date 10:40 09-09-2020
+ * @date 30-03-2021 18:20
  **/
 public class LRUCache {
 
+    private Map<Integer, LruNode> map = new HashMap<>();
+
     private Integer size;
 
-    private static Integer MAX_SIZE = Integer.MAX_VALUE;
+    private LruNode head;
 
-    private static Integer DEFAULT_SIZE = 16;
+    private LruNode tail;
 
-    private Node[] table;
-
-    public LRUCache() {
-        this(DEFAULT_SIZE);
-    }
+    private Integer linkSize;
 
     public LRUCache(Integer size) {
         this.size = size;
-        table = new Node[size];
+        linkSize= 0;
+        //初始化两个节点,无实际意义
+        head = new LruNode();
+        tail = new LruNode();
     }
 
-    /**
-     * get的操作需要早o(1)复杂度内完成
-     *
-     * @param key
-     */
-    public void get(int key) {
+    public void put(int key , int value) {
+        LruNode newNode = new LruNode(key, value);
+        map.put(key, newNode);
+        linkSize++;
+        //头插入插入一个节点,维护链表
+        newNode.next = head.next;
+        head.next.pre = newNode;
 
+        head.next = newNode;
+        newNode.pre = head;
+
+        if (linkSize > size) {
+            //进行淘汰末尾节点
+        }
     }
 
-    /**
-     * set的操作也需要在o(1)复杂度内完成
-     *
-     * @param key
-     * @param value
-     */
-    public void set(int key, int value) {
-
+    public Integer get(int key) {
+        return null;
     }
 
-    public Integer getSize() {
-        return size;
-    }
 
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
-    public static void main(String[] args) {
-
-    }
-
-    static class Node {
+    class LruNode {
 
         private Integer key;
 
-        private Object value;
+        private Integer value;
 
-        private Node next;
+        private LruNode next;
 
-        private Node prev;
+        private LruNode pre;
 
-        public Node(Integer key, Object value) {
+        public LruNode() {
+        }
+
+        public LruNode(Integer key, Integer value) {
             this.key = key;
             this.value = value;
         }
@@ -79,28 +74,28 @@ public class LRUCache {
             this.key = key;
         }
 
-        public Object getValue() {
+        public Integer getValue() {
             return value;
         }
 
-        public void setValue(Object value) {
+        public void setValue(Integer value) {
             this.value = value;
         }
 
-        public Node getNext() {
+        public LruNode getNext() {
             return next;
         }
 
-        public void setNext(Node next) {
+        public void setNext(LruNode next) {
             this.next = next;
         }
 
-        public Node getPrev() {
-            return prev;
+        public LruNode getPre() {
+            return pre;
         }
 
-        public void setPrev(Node prev) {
-            this.prev = prev;
+        public void setPre(LruNode pre) {
+            this.pre = pre;
         }
     }
 }
