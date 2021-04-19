@@ -20,6 +20,9 @@ public class LRUCache {
     private Integer linkSize;
 
     public LRUCache(Integer size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("参数无实际意义");
+        }
         this.size = size;
         linkSize= 0;
         //初始化两个节点,无实际意义
@@ -44,6 +47,9 @@ public class LRUCache {
     }
 
     public Integer get(int key) {
+        LruNode lruNode = map.get(key);
+        //然后把lruNode 移动到链表的头结点
+        //思路是先删除当前节点，然后从新头插入插入这个节点
         return null;
     }
 
